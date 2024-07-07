@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; font-family: Arial, sans-serif;">Edit Post</h2>
+    <form method="post" enctype="multipart/form-data" style="font-family: Arial, sans-serif;">
+      {% csrf_token %}
+      <div style="margin-bottom: 10px;">
+        <label for="id_title">Title:</label><br />
+        <input type="text" id="id_title" name="title" value="{{ form.title.value }}" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" />
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label for="id_content">Content:</label><br />
+        <textarea id="id_content" name="description" rows="5" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">{{ form.content.value }}</textarea>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label for="id_blog_image">Image:</label><br />
+        {% if form.blog_image.value %}
+          <img src="{{ form.blog_image.value.url }}" alt="{{ form.blog_image.value.name }}" style="max-width: 100%; margin-bottom: 10px;" />
+        {% endif %}
+        <input type="file" id="id_blog_image" name="blog_image" accept="image/*" style="margin-top: 5px;" />
+      </div>
+      <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
+      <a href="{% url 'view_user_post' %}" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin-left: 10px;">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+  </head>
+  <style>
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #5cb85c;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #4cae4c;
+    }
+    
+    .error {
+      color: red;
+      font-size: 12px;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <form id="registrationForm" method="post" action="{% url 'register' %}">
+        <!-- Use Django template tag for action URL -->
+        {% csrf_token %}
+        <h2>Register</h2>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+          <span class="error" id="usernameError"></span>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+          <span class="error" id="emailError"></span>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+          <span class="error" id="passwordError"></span>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required />
+          <span class="error" id="confirmPasswordError"></span>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+    <script>
+      // Client-side validation
+      document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        event.preventDefault()
+      
+        // Clear previous error messages
+        document.querySelectorAll('.error').forEach(function (el) {
+          el.textContent = ''
+        })
+      
+        // Get form values
+        var username = document.getElementById('username').value.trim()
+        var email = document.getElementById('email').value.trim()
+        var password = document.getElementById('password').value
+        var confirmPassword = document.getElementById('confirmPassword').value
+      
+        // Validation flags
+        var isValid = true
+      
+        // Validate username
+        if (username.length < 3) {
+          document.getElementById('usernameError').textContent = 'Username must be at least 3 characters long.'
+          isValid = false
+        }
+      
+        // Validate email format
+        if (!validateEmail(email)) {
+          document.getElementById('emailError').textContent = 'Please enter a valid email address.'
+          isValid = false
+        }
+      
+        // Validate password length
+        if (password.length < 6) {
+          document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long.'
+          isValid = false
+        }
+      
+        // Validate password match
+        if (password !== confirmPassword) {
+          document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.'
+          isValid = false
+        }
+      
+        // If form is valid, submit the form
+        if (isValid) {
+          this.submit() // Submit the form
+        }
+      })
+      
+      // Email validation function
+      function validateEmail(email) {
+        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return re.test(String(email).toLowerCase())
+      }
+    </script>
+  </body>
+</html>

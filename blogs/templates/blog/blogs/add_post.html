@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="container mx-auto px-4 py-6">
+    <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Add New Post</h2>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" id="title" name="title" required autofocus placeholder="Enter title" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500" />
+          </div>
+          <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" name="description" rows="4" required placeholder="Enter description" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="blog_image" class="block text-sm font-medium text-gray-700">Upload Image</label>
+            <input type="file" id="blog_image" name="blog_image" accept="image/*" required class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500" />
+          </div>
+          <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition duration-200">Submit Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block css %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+  <style>
+    /* Additional CSS styles specific to this page */
+    .container {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+    input[type='text'],
+    input[type='file'],
+    textarea {
+      border: 1px solid #d1d5db; /* Use Tailwind or custom utility classes for consistency */
+    }
+    input[type='text']:focus,
+    input[type='file']:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+  </style>
+{% endblock %}

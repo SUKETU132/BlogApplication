@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="container1">
+    {% if request.user.is_authenticated %}
+      {% if posts %}
+        {% for post in posts %}
+          <div class="post">
+            {% if post.blog_image %}
+              <a href="/blog/post/{{ post.id }}"><img src="{{ post.blog_image.url }}" alt="{{ post.title }}" class="post-image" /></a>
+            {% endif %}
+            <div class="flex justify-between items-center">
+              <h2>{{ post.title }}</h2>
+              <div class="flex justify-between gap-2 items-center mt-3">
+                {% if post.user == request.user %}
+                  <a href="{% url 'edit_post' post.id %}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Edit</a>
+                  <a href="{% url 'delete_post' post.id %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No blog posts found.</p>
+      {% endif %}
+    {% else %}
+      <p style="text-align: center;">{{ message }}</p>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block css %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+{% endblock %}

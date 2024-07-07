@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; font-family: Arial, sans-serif; color: #dc3545;">Delete Post</h2>
+    <p style="font-family: Arial, sans-serif;">Are you sure you want to delete this post?</p>
+    <div style="text-align: center;">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+      {% if post.blog_image %}
+        <img src="{{ post.blog_image.url }}" alt="{{ post.title }}" style="max-width: 100%; margin-bottom: 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);" />
+      {% endif %}
+    </div>
+    <form method="post" style="text-align: center; margin-top: 20px;">
+      {% csrf_token %}
+      <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Delete</button>
+      <a href="{% url 'view_user_post' %}" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin-left: 10px;">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}
+        Bloggy
+      {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+      .bg-light-grey {
+        a {
+          color: white;
+        }
+        background-color: rgb(144 155 172 / 90%);
+        border-radius: 0.4rem;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1000; /* Adjust z-index as needed */
+        background-color: white; /* Ensure background color matches your design */
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('header a[href="/"], header a[href="/blog/"], header a[href="#"], header a[href="/blog/login/"], header a[href="/blog/logout/"]')
+      
+        links.forEach((link) => {
+          link.addEventListener('click', function (event) {
+            event.preventDefault()
+            const header = document.querySelector('header')
+            const lis = document.querySelectorAll('.op li')
+      
+            // Remove bg-light-grey class from all <li> elements initially
+            lis.forEach((li) => {
+              li.classList.remove('bg-light-grey')
+            })
+      
+            // Add bg-light-grey class to the clicked link's corresponding <li> element
+            if (link.getAttribute('href') === '/') {
+              document.querySelector('.op li:nth-child(1)').classList.add('bg-light-grey')
+            } else if (link.getAttribute('href') === '/blog/') {
+              document.querySelector('.op li:nth-child(2)').classList.add('bg-light-grey')
+            }
+      
+            // Redirect to the link's href after handling the click
+            window.location.href = link.getAttribute('href')
+          })
+        })
+      
+        // Check URL on page load to set initial active state
+        const currentPath = window.location.pathname
+        if (currentPath === '/') {
+          document.querySelector('.op li:nth-child(1)').classList.add('bg-light-grey')
+        } else if (currentPath === '/blog/') {
+          document.querySelector('.op li:nth-child(2)').classList.add('bg-light-grey')
+        } else if (currentPath === '/blog/mypost/') {
+          document.querySelector('.op li:nth-child(3)').classList.add('bg-light-grey')
+        } else if (currentPath === '/blog/add/') {
+          document.querySelector('.op li:nth-child(4)').classList.add('bg-light-grey')
+        }
+      
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle')
+        const mobileMenu = document.getElementById('mobile-menu')
+      
+        menuToggle.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden')
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <header class="sticky w-full border-b bg-white pb-4">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
+        <a href="/" class="cursor-pointer">
+          <h1 class="text-lg font-bold tracking-tight text-gray-800">
+            <span class="text-blue-500">B</span>
+            <span class="text-green-500">l</span>
+            <span class="text-red-500">o</span>
+            <span class="text-yellow-500">g</span>
+            <span class="text-purple-500">g</span>
+            <span class="text-indigo-500">y</span>
+          </h1>
+        </a>
+        <div class="hidden lg:block">
+          <ul class="op inline-flex space-x-8">
+            <li class="pt-2 pb-3 text-center">
+              <a href="/" class="p-5 pb-5 text-sm font-semibold text-gray-800">Home</a>
+            </li>
+            <li class="pt-2 pb-3 text-center">
+              <a href="/blog/" class="p-5 pt-2 pb-5 text-sm font-semibold text-gray-800">All Post</a>
+            </li>
+            <li class="pt-2 pb-3 text-center">
+              <a href="/blog/mypost" class="p-5 pt-2 pb-5 text-sm font-semibold text-gray-800">My Posts</a>
+            </li>
+            <li class="pt-2 pb-3 text-center">
+              <a href="/blog/add" class="mt-2 mb-5 p-5 text-sm font-semibold text-gray-800">Add post</a>
+            </li>
+          </ul>
+        </div>
+        <div class="hidden lg:block">
+          {% if request.user.is_authenticated %}
+            <a href="/blog/logout"><button type="button" class="p-7 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Logout</button></a>
+          {% else %}
+            <a href="/blog/login/"><button type="button" class="p-7 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">Login</button></a>
+          {% endif %}
+        </div>
+        <div class="lg:hidden">
+          <button id="menu-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 cursor-pointer">
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="hidden lg:hidden">
+        <ul class="space-y-4 p-4">
+          <li>
+            <a href="/" class="block text-sm font-semibold text-gray-800">Home</a>
+          </li>
+          <li>
+            <a href="/blog/" class="block text-sm font-semibold text-gray-800">All Post</a>
+          </li>
+          <li>
+            <a href="/blog/mypost" class="block text-sm font-semibold text-gray-800">My Posts</a>
+          </li>
+          <li>
+            <a href="/blog/add" class="block text-sm font-semibold text-gray-800">Add Post</a>
+          </li>
+          <li>
+            {% if request.user.is_authenticated %}
+              <a href="/blog/logout" class="block text-sm font-semibold text-gray-800">Logout</a>
+            {% else %}
+              <a href="/blog/login/" class="block text-sm font-semibold text-gray-800">Login</a>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div class="production">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+  </body>
+</html>

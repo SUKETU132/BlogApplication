@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="w-full h-full mx-auto px-4 py-6">
+    <div style="max-width: 1000px; margin-top: 10px; border-radius: 0.5rem;" class="w-[600px] mx-auto rounded-lg shadow-md overflow-hidden hello flex justify-center items-center flex-col">
+      {% if post.blog_image %}
+        <div style="max-width: 100%;">
+          <img src="{{ post.blog_image.url }}" alt="{{ post.title }}" class="object-cover h-[500px] w-[500px]" style="height: 70%; max-height: 900px; width: 1000px;" />
+        </div>
+        <!-- Adjust max-height as needed for responsiveness -->
+      {% endif %}
+      <div class="p-6">
+        <h1 class="text-3xl font-bold text-gray-900">{{ post.title }}</h1>
+        <p class="mt-2 text-gray-600">Published on {{ post.date_added|date:'F j, Y' }} by {{ post.user.username }}</p>
+        <div class="mt-4 text-gray-800">{{ post.description }}</div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block css %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+{% endblock %}
