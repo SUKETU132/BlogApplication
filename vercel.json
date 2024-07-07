@@ -2,29 +2,22 @@
     "version": 2,
     "builds": [
         {
-            "src": "BlogApplication/wsgi.py",
-            "use": "@vercel/python",
-            "config": {
-                "maxLamdaSize": "15mb",
-                "runtime": "python3.9"
-            }
-        },
-        {
-            "src": "build_files.sh",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "staticfiles_build"
-            }
+            "src": "vercel.sh",
+            "use": "@vercel/python"
         }
     ],
     "routes": [
         {
-            "src": "/(.*)",
+            "src": "/static/(.*)",
             "dest": "/static/$1"
         },
         {
             "src": "/(.*)",
-            "dest": "BlogApplication/wsgi.py"
+            "dest": "vercel.sh"
         }
-    ]
+    ],
+    "env": {
+        "VERCEL_URL": "@BlogApplication/BlogApplication.vercel.app"
+    },
+    "outputDirectory": "staticfiles_build"
 }
