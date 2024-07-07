@@ -17,7 +17,7 @@
         }
     ],
     "env": {
-        "VERCEL_URL": "@BlogApplication/BlogApplication.vercel.app"
+        "VERCEL_URL": "@BlogApplication.vercel.app"
     },
     "outputDirectory": "staticfiles_build"
 }
